@@ -7,21 +7,22 @@ public class PalindromeCheckerApp {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter a word: ");
-        String word = scanner.nextLine();
+        // Take input from user
+        System.out.print("Enter a string: ");
+        String original = scanner.nextLine();
 
         String reversed = "";
 
-        // Reverse the string
-        for (int i = word.length() - 1; i >= 0; i--) {
-            reversed = reversed + word.charAt(i);
+        // Reverse string using loop
+        for (int i = original.length() - 1; i >= 0; i--) {
+            reversed = reversed + original.charAt(i);
         }
 
-        // Check if palindrome
-        if (word.equalsIgnoreCase(reversed)) {
-            System.out.println(word + " is a Palindrome");
+        // Compare original and reversed string
+        if (original.equals(reversed)) {
+            System.out.println("Result: The string is a Palindrome.");
         } else {
-            System.out.println(word + " is not a Palindrome");
+            System.out.println("Result: The string is NOT a Palindrome.");
         }
 
         scanner.close();
