@@ -1,85 +1,52 @@
 import java.util.Scanner;
-
-class Node {
-    char data;
-    Node next;
-
-    Node(char data) {
-        this.data = data;
-        this.next = null;
-    }
-}
+import java.util.Stack;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class PalindromeCheckerApp {
-
-    // Reverse linked list
-    static Node reverse(Node head) {
-        Node prev = null;
-        Node current = head;
-
-        while (current != null) {
-            Node next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-        }
-
-        return prev;
-    }
-
-    // Check palindrome
-    static boolean isPalindrome(Node head) {
-
-        if (head == null || head.next == null)
-            return true;
-
-        Node slow = head;
-        Node fast = head;
-
-        // Find middle
-        while (fast.next != null && fast.next.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        // Reverse second half
-        Node secondHalf = reverse(slow.next);
-
-        Node firstHalf = head;
-
-        // Compare halves
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data)
-                return false;
-
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
-        }
-
-        return true;
-    }
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
+
         System.out.print("Enter a word: ");
-        String input = sc.nextLine();
+        String word = sc.nextLine();
 
-        // Convert string to linked list
-        Node head = new Node(input.charAt(0));
-        Node current = head;
-
-        for (int i = 1; i < input.length(); i++) {
-            current.next = new Node(input.charAt(i));
-            current = current.next;
-        }
-
-        // Check palindrome
-        if (isPalindrome(head))
-            System.out.println("The word is a Palindrome.");
-        else
-            System.out.println("The word is NOT a Palindrome.");
+        checkPalindromeUsingQueueStack(word);
 
         sc.close();
+    }
+
+    // UC6 - Queue + Stack Based Palindrome Checker
+    public static void checkPalindromeUsingQueueStack(String word) {
+
+        Stack<Character> stack = new Stack<>();
+        Queue<Character> queue = new LinkedList<>();
+
+        // Insert characters into stack and queue
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            stack.push(ch);      // LIFO
+            queue.add(ch);       // FIFO
+        }
+
+        boolean isPalindrome = true;
+
+        // Compare dequeue (queue) with pop (stack)
+        for (int i = 0; i < word.length(); i++) {
+
+            char stackChar = stack.pop();   // reverse order
+            char queueChar = queue.remove(); // normal order
+
+            if (stackChar != queueChar) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        if (isPalindrome)
+            System.out.println("Palindrome");
+        else
+            System.out.println("Not Palindrome");
     }
 }
